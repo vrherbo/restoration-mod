@@ -53,8 +53,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization_Init", fun
 				["RestorationModInfo_revive_damage_reductionDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",
 				["RestorationModInfo_first_aid_damage_reductionTitleID"] = "응급 치료",
 				["RestorationModInfo_first_aid_damage_reductionDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",
-				["RestorationModInfo_uppersTitleID"] = "각성제",
-				["RestorationModInfo_uppersDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",				
+				--["RestorationModInfo_uppersTitleID"] = "각성제",
+				--["RestorationModInfo_uppersDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",				
 				["RestorationModInfo_long_dis_reviveTitleID"] = "인스파이어 (쿨다운)",
 				["RestorationModInfo_long_dis_reviveDescID"] = "해당 스킬의 쿨다운 표시를 활성화하거나 비활성화합니다.",
 				["RestorationModInfo_hostage_takerTitleID"] = "인질범",
@@ -68,8 +68,6 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization_Init", fun
 				["RestorationModInfo_dmg_multiplier_outnumberedDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",
 				["RestorationModInfo_overkill_damage_multiplierTitleID"] = "오버킬",
 				["RestorationModInfo_overkill_damage_multiplierDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",
-				["RestorationModInfo_bullseyeTitleID"] = "불스아이",
-				["RestorationModInfo_bullseyeDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",				
 				["RestorationModInfo_bullet_stormTitleID"] = "탄환 폭풍",
 				["RestorationModInfo_bullet_stormDescID"] = "해당 스킬의 표시를 활성화하거나 비활성화합니다.",
 
@@ -2039,7 +2037,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Eng", function(loc)
 		["bm_wskn_resmod_blackgold"] = "블랙 골드",
 		["bm_wskn_resmod_cleangold"] = "클린 골드",
 		["bm_wskn_resmod_imissfauna"] = "세레스 골드",
-		["bm_wskn_resmod_imissfauna_desc"] = "대자연은 널 절대로 배신하지 않을거야... 그렇지?",
+		["bm_wskn_resmod_imissfauna_desc"] = "대자연은 널 절대로 배신하지 않을거야... 맞지?",
 		["bm_wskn_resmod_uuuuu"] = "고딕 세레스 골드",
 		["bm_wskn_resmod_uuuuu_desc"] = "자연은 어둡기도 하고 아름답기도 하지?",
 		["bm_wskn_resmod_ownthiscity"] = "플뢰르 골드",
@@ -2071,7 +2069,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Eng", function(loc)
 		["bm_wskn_resmod_2019"] = "워페어 골드",
 		["bm_wskn_resmod_llenn"] = "핑크 데블",
 		["bm_wskn_resmod_llenn_desc"] = "이건 내가 생각한 것이 정확히는 아니지만 분홍색은 분홍색이야.",
-		["bm_wskn_resmod_shigu"] = "시그니처 그린",
 		["bm_wskn_resmod_sugarhoneyicetea"] = "지브라 골드",
 		["bm_wskn_resmod_blackzebra"] = "블랙 지브라 골드",
 		["bm_wskn_resmod_charlotte"] = "웹 골드",
@@ -2081,7 +2078,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Eng", function(loc)
 		["menu_weapon_color_index_11"] = "메탈 + 조준기",
 		["menu_weapon_color_index_12"] = "메탈 + 탄창",
 		["menu_weapon_color_index_13"] = "메탈 + 조준기 + 탄창",
-		["menu_weapon_color_index_14"] = "유기적 - 하부 리시버",
 
 		--Menu Buttons--
 		["bm_menu_btn_sell"] = "무기 판매 ($price)",
@@ -2519,9 +2515,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons_Eng", function
 				["bm_wally_desc"] = "#{important_2}#안녕 꼬마야...##",
 				["bm_maralohk_desc"] = "#{important_1}#VOULL NE XATA VOK, MARA LOHK?##",
 				--AMR16--
-				["bm_wp_upg_i_m16a2"] = "Crosskill B3 키트",
+				["bm_wp_upg_i_m16a2"] = "AMR-16 B3 키트",
 				["bm_wp_upg_i_m16a2_desc"] = "자동 사격을 #{skill_color}#3점사##로 대체합니다. #{risk}#점사## 속도가 #{skill_color}#950 RPM으로 증가합니다.## ",
-				["bm_wp_upg_i_m16a2_famas_desc"] = "자동 사격을 개선된 #{skill_color}#3점사##로 대체되고 피해량이 증가합니다.",
 				--G3A3--
 				["bm_wp_upg_i_g3"] = "SG-3 키트",
 				["bm_wp_upg_i_g3_desc"] = "4단계 사격 선택기를 추가하여 무기에 #{skill_color}#3점사## 설정을 추가합니다.",
@@ -3028,7 +3023,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons_Eng", function
 				["bm_g3_sg1_sc_desc"] = "Compact-5 및 Brenner-21의 언니 역할을 하는 이 소총의 명중률은 저격소총의 명중률과 맞먹습니다.\n\n#{skill_color}#방탄복, 다수의 적, 얇은 벽, 그리고 최대 피해량 사거리 내의 방패를 관통할 수 있습니다.##",
 				["bm_wp_g3_m_psg"] = "프레지션 탄창",
 				["bm_wp_upg_i_g3sg1"] = "프레지션 하부",
-				["bm_wp_upg_i_g3sg1_desc"] = "중총열로 교체하고 #{skill_color}#완전한 방탄복 관통력 및 방패 관통 능력을 부여하는## 고화력 탄을 장전합니다. 부품은 더 무거운 소재로 강화되어 #{important_1}#발사 속도가 감소하고## #{risk}#반자동##으로 고정됩니다.",
+				["bm_wp_upg_i_g3sg1_desc"] = "#{skill_color}#완전한 방탄복 관통력 및 방패 관통 능력을 부여하는## 고화력 탄을 장전합니다. 부품은 더 무거운 소재로 강화되어 #{important_1}#발사 속도가 감소하고## #{risk}#반자동##으로 고정됩니다.",
 				--KS12
 				["bm_shak12_sc_desc"] = "매우 강력한 12.7x55mm 탄을 사용하는 불펍 디자인의 전투 소총입니다. 최고의 대학살이 매우 작은 패키지에 담겨있죠.\n\n#{skill_color}#무기 피해량의 50%가 방탄복을 관통하여 가하고 적을 관통할 수 있습니다.##",
 				["bm_shak12_sc_oden_desc"] = "매우 강력한 12.7x55mm 탄을 사용하는 불펍 디자인의 전투 소총입니다. 최고의 대학살이 매우 작은 패키지에 담겨있죠.\n\n#{skill_color}#방탄복, 다수의 적, 얇은 벽, 그리고 최대 피해량 사거리 내의 방패를 관통할 수 있습니다.##",
@@ -5795,7 +5790,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills_Eng", function(
 
 				--Bulletproof--
 				["menu_iron_man_sc"] = "방탄 갑옷",
-				["menu_iron_man_desc_sc"] = "베이식: #{owned}#$basic##\n스나이퍼, 타이탄 도저, 화염, 폭발물이 당신의 방탄복을 파괴하며 체력으로 넘어오는 초과 피해를 막아줍니다.\n\n#{risk}#주의: 자가 피해 또는 클로커의 발차기 및 테이저의 전기 충격으로 직접 입는 체력 피해에는 적용되지 않습니다.##\n\n에이스: #{owned}#$pro##\n방탄량이 최소 #{skill_color}#$skill_value_p5## 이상 가득 차 있을때, 받는 피해가 기본 방탄량의 #{skill_color}#$skill_value_p1##만큼 감소합니다.\n\n방탄복이 파괴되면 기본 방탄량 #{skill_color}#$skill_value_p4## 당 #{skill_color}#$skill_value_p3##초의 피해 유예 시간을 얻습니다.\n\n방탄복 회복 속도가 #{skill_color}#$skill_value_p2## 빨라집니다. $anarc_disable\n\n",
+				["menu_iron_man_desc_sc"] = "베이식: #{owned}#$basic##\n스나이퍼, 타이탄 도저, 화염, 폭발물이 당신의 방탄복을 파괴하며 체력으로 넘어오는 초과 피해를 막아줍니다.\n\n#{risk}#주의: 자가 피해 또는 클로커의 발차기 및 테이저의 전기 충격으로 직접 입는 체력 피해에는 적용되지 않습니다.##\n\n에이스: #{owned}#$pro##\n방탄량이 가득 차 있는 동안, 받는 피해가 최대 방탄량의 #{skill_color}#$skill_value_p1##만큼 감소합니다.\n\n방탄복이 파괴되면 기본 방탄량 #{skill_color}#$skill_value_p4##당 #{skill_color}#$skill_value_p3##초의 피해 유예 시간을 더 얻습니다.\n\n방탄복 회복 속도가 #{skill_color}#$skill_value_p2## 빨라집니다. $anarc_disable\n\n",
 
 			--[[   BREACHER SUBTREE   ]]--
 				--Silent Drilling--
@@ -6071,7 +6066,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks_Eng", funct
 		["menu_deck5_7_sc"] = "전문 암살자",
 
 		["menu_deck5_1_desc_sc"] = "근접 무기를 제외한 다른 무기로 적을 처치하면 #{skill_color}#$perk_value_1##의 체력이 저장되며, 최대 #{risk}#$perk_value_2##까지 저장할 수 있습니다.\n\n근접 공격으로 적을 처치하면 저장된 체력이 임시 체력으로 바뀌며, 이 체력은 초당 #{important_1}#$perk_value_3##씩 감소합니다.\n\n임시 체력은 최대 체력을 초과할 수 있지만, 한 번에 최대 #{risk}#$perk_value_4##까지만 가질 수 있습니다.",
-		["menu_deck5_3_desc_sc"] = "방탄복이 재생하면 회피 미터가 회피율의 ##$perk_value_1##만큼 채워집니다.\n\n회피율이 추가로 ##$perk_value_2## 증가합니다.",
+		["menu_deck5_3_desc_sc"] = "방탄복이 회복되었을 때 회피 미터가 회피율의 ##$perk_value_1##만큼 채워집니다.\n\n회피율이 추가로 ##$perk_value_2## 증가합니다.",
 		["menu_deck5_5_desc_sc"] = "체력을 ##$perk_value_1## 더 저장합니다.\n\n인벤토리에 시체 가방을 ##$perk_value_2##개 더 소지합니다.",
 		["menu_deck5_7_desc_sc"] = "되살아났을때 ##$perk_value_1##의 임시 체력을 얻습니다.\n\n회피율이 추가로 ##$perk_value_2## 증가합니다.",
 		["menu_deck5_9_desc_sc"] = "일시 체력을 가지고 있는 동안 방어력이 ##$perk_value_1## 증가하고 이동 속도가 추가로 ##$perk_value_2## 빨라집니다.\n\n방어력은 최대 ##$perk_value_3##까지 받는 체력 피해를 감소시키며, 다른 피해 감소 효과가 적용된 후 적용됩니다.\n\n덱 완료 보너스: PAYDAY 카드에서 높은 등급의 아이템을 얻을 확률이 ##10%## 상승합니다.",
@@ -6162,7 +6157,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks_Eng", funct
 		["menu_deck9_corey_desc_sc"] = "#{risk}#과다 복용의 처치 시 회피##를 수정하여 콤보 #{risk}#$perk_value_2##점마다 회피의 #{skill_color}#$perk_value_1##만큼 회피 미터를 채우고, 최대 #{skill_color}#$perk_value_3##까지 채웁니다.\n근접 공격으로 적을 처치하면 추가로 #{skill_color}#$perk_value_5## 채웁니다.\n\n체력 피해를 입으면 콤보를 추가로 #{important_1}#$perk_value_4## 잃습니다.\n#{risk}#결전의 처치 시 공포감이## #{important_1}#근접 공격으로 적을 처치해도 더 이상 증가하지 않습니다.##",
 
 		--Grinder--
-		["menu_deck11_1_desc_sc"] = "적에게 피해를 가하면 #{skill_color}#$perk_value_2##초동안 매 초마다 체력이 #{skill_color}#$perk_value_1##씩 회복되며, 최대 #{skill_color}#$perk_value_3##회까지 중첩됩니다.\n#{important_1}#$perk_value_4##초마다 스택을 얻을 수 있으며, #{risk}#방편복##를 입을 때만 적용됩니다.\n방편복의 방탄력이 #{important_1}#$perk_value_5##, 방어력이 #{important_1}#$perk_value_7## 감소하지만 방편복의 기동성이 #{skill_color}#$perk_value_6## 증가합니다.\n\n#{risk}#주의: 센트리 또는 지속 피해 효과로 적에게 피해를 가해도 중첩을 얻을 수 없습니다.##",
+		["menu_deck11_1_desc_sc"] = "적에게 피해를 가하면 #{skill_color}#$perk_value_2##초동안 매 초마다 체력이 #{skill_color}#$perk_value_1##씩 회복되며, 최대 #{skill_color}#$perk_value_3##회까지 중첩됩니다.\n#{important_1}#$perk_value_4##초마다 스택을 얻을 수 있으며, #{risk}#방편복##를 입을 때만 적용됩니다.\n방편복의 방탄력이 #{important_1}#$perk_value_5## 감소하지만 방편복의 기동성이 #{skill_color}#$perk_value_6## 증가합니다.\n\n#{risk}#주의: 센트리 또는 지속 피해 효과로 적에게 피해를 가해도 중첩을 얻을 수 없습니다.##",
 		["menu_deck11_3_desc_sc"] = "스택은 매 초마다 체력이 추가로 ##$perk_value_1##씩 회복합니다.",
 		["menu_deck11_5_desc_sc"] = "스택의 지속 시간이 추가로 ##$perk_value_1##초 증가합니다.\n\n시체 가방의 소지 수가 ##$perk_value_2##개 증가합니다.",
 		["menu_deck11_7_desc_sc"] = "스택은 매 초마다 체력이 추가로 ##$perk_value_1##씩 회복합니다.",
@@ -6317,7 +6312,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks_Eng", funct
 			--Gambler
 			["menu_deck10_mrwi_desc"] = "탄약을 획득할 때마다 #{skill_color}#$perk_value_1##에서 #{skill_color}#$perk_value_2##의 체력을 회복하는 의약품을 얻을 수 있습니다.\n\n치료의 재사용 대기 시간은 #{important_1}#$perk_value_3##초이지만, 탄약 상자를 획득할 때마다 대기 시간이 #{skill_color}#$perk_value_4##초에서 #{skill_color}#$perk_value_5##초씩 감소합니다.\n\n탄약을 획득할 때마다, 당신의 팀원도 기본 탄약 회수량의 ##$perk_value_6##만큼 탄약을 획득합니다.\n\n페이저를 응답하는 속도가 ##$perk_value_7## 빨라집니다.",
 			--Grinder
-			["menu_deck11_mrwi_desc"] = "적에게 피해를 가하면 #{skill_color}#$perk_value_2##초동안 매 초마다 체력이 #{skill_color}#$perk_value_1##씩 회복되며, 최대 #{skill_color}#$perk_value_3##회까지 중첩됩니다.\n#{important_1}#$perk_value_4##초마다 스택을 얻을 수 있으며, #{risk}#방편복##를 입을 때만 적용됩니다.\n방편복의 방탄력이 #{important_1}#$perk_value_5##, 방어력이 #{important_1}#$perk_value_8## 감소하지만 방편복의 기동성이 #{skill_color}#$perk_value_6## 증가합니다.\n\n#{risk}#주의: 센트리 또는 지속 피해 효과로 적에게 피해를 가해도 중첩을 얻을 수 없습니다.##\n\n시체 가방의 소지 수가 #{skill_color}#$perk_value_7##개 증가합니다.",
+			["menu_deck11_mrwi_desc"] = "적에게 피해를 가하면 #{skill_color}#$perk_value_2##초동안 매 초마다 체력이 #{skill_color}#$perk_value_1##씩 회복되며, 최대 #{skill_color}#$perk_value_3##회까지 중첩됩니다.\n#{important_1}#$perk_value_4##초마다 스택을 얻을 수 있으며, #{risk}#방편복##를 입을 때만 적용됩니다.\n방편복의 방탄력이 #{important_1}#$perk_value_5## 감소하지만 방편복의 기동성이 #{skill_color}#$perk_value_6## 증가합니다.\n\n#{risk}#주의: 센트리 또는 지속 피해 효과로 적에게 피해를 가해도 중첩을 얻을 수 없습니다.##\n\n시체 가방의 소지 수가 #{skill_color}#$perk_value_7##개 증가합니다.",
 			--Yakuza
 			["menu_deck12_mrwi_desc"] = "체력이 낮을 수록 회피 미터가 더 빠르게 자동으로 채워집니다.\n\n체력이 ##100%## 미만일 경우, 회피 미터가 매초 최대 ##$perk_value_1##만큼 채워집니다.\n\n시체를 가방에 넣거나 인질과 상호 작용하는 속도가 ##$perk_value_2## 빨라집니다.",
 			--Ex-Pres
@@ -6396,5 +6391,3 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks_Eng", funct
 
 	})
 end)
-
-

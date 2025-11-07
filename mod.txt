@@ -33,7 +33,7 @@
 			"script_path" : "lua/sc/units/player/playerdamage.lua"
 		},
 		{
-			"hook_id" : "lib/units/beings/player/states/playertased",
+			"hook_id" : "lib/units/beings/player/states/playerdamage",
 			"script_path" : "lua/sc/units/player/playertased.lua"
 		},
 		{

@@ -110,13 +110,7 @@ function PlayerDamage:init(unit)
 	self._deflection = math.max(1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills(), self._max_deflection) --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
 	self._unpierceable = player_manager:has_category_upgrade("player", "unpierceable_armor")
 	managers.player:set_damage_absorption("absorption_addend", managers.player:upgrade_value("player", "damage_absorption_addend", 0))
-
-	local bulletproof_aced = managers.player:has_category_upgrade("player", "armor_full_damage_absorb")
-	local pm = managers.player
-	local base_armor = tweak_data.player.damage.ARMOR_INIT + pm:body_armor_value("armor")
-	if bulletproof_aced then
-		managers.player:set_damage_absorption("full_armor_absorption", managers.player:upgrade_value("player", "armor_full_damage_absorb", 0)[1] * base_armor)
-	end
+	managers.player:set_damage_absorption("full_armor_absorption", managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor())
 	self._buildup_meter_hurt_t = 0
 
 	--The rest of this is unchanged vanilla code.
@@ -622,23 +616,10 @@ function PlayerDamage:damage_bullet(attack_data)
 			else
 				pm:unregister_message(Message.OnPlayerDodge, "dodge_ricochet_bullets")
 			end
-
+		
 			self._unit:sound():play("Play_star_hit")
 			if attack_data.damage > 0 then
-				local unit_movement = self._unit:movement()
-				local drain_mult = 0.5
-				if unit_movement then
-					local current_state = unit_movement and unit_movement.current_state and unit_movement:current_state()
-					local advmov = current_state and (current_state:in_air() or current_state._is_sliding or current_state._is_wallrunning)
-					local freefall = unit_movement:current_state_name() == "jerry1" or unit_movement:current_state_name() == "jerry2"
-					local crouched = not advmov and unit_movement:crouching()
-					if crouched or freefall or unit_movement:zipline_unit() or current_state.driving or current_state._moving ~= true then
-						drain_mult = 0
-					elseif (unit_movement:running() or advmov) then
-						drain_mult = 1
-					end
-				end
-				self._unit:movement():subtract_stamina(8 * drain_mult)
+				self._unit:movement():subtract_stamina(6.75)
 				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
 				self:_send_damage_drama(attack_data, 0)
 				self._next_allowed_dmg_t = Application:digest_value(t + math.max(grace_bonus, self._dmg_interval), true)
@@ -1793,8 +1774,7 @@ function PlayerDamage:_upd_health_regen(t, dt)
 	--]]
 end
 
-function PlayerDamage:_check_bleed_out(can_activate_berserker, ignore_movement_state, ignore_reduce_revive)
-
+Hooks:PreHook(PlayerDamage, "_check_bleed_out", "ResYakuzaCaptstoneCheck", function(self, can_activate_berserker, ignore_movement_state)
 	if self._check_berserker_done then --Deals with swan song shenanigans.
 		if self._can_survive_one_hit then
 			self._can_survive_one_hit = false
@@ -1828,101 +1808,7 @@ function PlayerDamage:_check_bleed_out(can_activate_berserker, ignore_movement_s
 			end
 		end
 	end
-
-	if self:get_real_health() == 0 and not self._check_berserker_done then
-		if self._unit:movement():zipline_unit() then
-			self._bleed_out_blocked_by_zipline = true
-
-			return
-		end
-
-		if not ignore_movement_state and self._unit:movement():current_state():bleed_out_blocked() then
-			self._bleed_out_blocked_by_movement_state = true
-
-			return
-		end
-
-		if managers.player:has_activate_temporary_upgrade("temporary", "copr_ability") and managers.player:has_category_upgrade("player", "copr_out_of_health_move_slow") then
-			return
-		end
-
-		local time = Application:time()
-
-		if not self._block_medkit_auto_revive and not ignore_reduce_revive and time > (self._uppers_elapsed or 0) then
-			local auto_recovery_kit = FirstAidKitBase.GetFirstAidKit(self._unit:position())
-
-			if auto_recovery_kit then
-				auto_recovery_kit:take(self._unit)
-				self._unit:sound():play("pickup_fak_skill")
-
-				self._uppers_elapsed = time + self._UPPERS_COOLDOWN
-				
-				--Uppers CD buff tracker
-				managers.hud:start_buff("uppers", self._UPPERS_COOLDOWN)
-
-				return
-			end
-		end
-
-		if can_activate_berserker and not self._check_berserker_done then
-			local has_berserker_skill = managers.player:has_category_upgrade("temporary", "berserker_damage_multiplier")
-
-			if has_berserker_skill and not self._disable_next_swansong then
-				managers.hud:set_teammate_condition(HUDManager.PLAYER_PANEL, "mugshot_swansong", managers.localization:text("debug_mugshot_downed"))
-				managers.player:activate_temporary_upgrade("temporary", "berserker_damage_multiplier")
-
-				self._current_state = nil
-				self._check_berserker_done = true
-
-				if alive(self._interaction:active_unit()) and not self._interaction:active_unit():interaction():can_interact(self._unit) then
-					self._unit:movement():interupt_interact()
-				end
-
-				self._listener_holder:call("on_enter_swansong")
-			end
-
-			self._disable_next_swansong = nil
-		end
-
-		self._hurt_value = 0.2
-		self._damage_to_hot_stack = {}
-
-		managers.environment_controller:set_downed_value(0)
-		SoundDevice:set_rtpc("downed_state_progression", 0)
-
-		if not self._check_berserker_done or not can_activate_berserker then
-			if not ignore_reduce_revive then
-				self._revives = Application:digest_value(Application:digest_value(self._revives, false) - 1, true)
-
-				self:_send_set_revives()
-			end
-
-			self._check_berserker_done = nil
-
-			managers.environment_controller:set_last_life(Application:digest_value(self._revives, false) <= 1)
-
-			if Application:digest_value(self._revives, false) == 0 then
-				self._down_time = 0
-			end
-
-			self._bleed_out = true
-			self._current_state = nil
-
-			managers.player:set_player_state("bleed_out")
-
-			self._critical_state_heart_loop_instance = self._unit:sound():play("critical_state_heart_loop")
-			self._slomo_sound_instance = self._unit:sound():play("downed_slomo_fx")
-			self._bleed_out_health = Application:digest_value(tweak_data.player.damage.BLEED_OUT_HEALTH_INIT * managers.player:upgrade_value("player", "bleed_out_health_multiplier", 1), true)
-
-			self:_drop_blood_sample()
-			self:on_downed()
-		end
-	elseif not self._said_hurt and self:get_real_health() / self:_max_health() < 0.2 then
-		self._said_hurt = true
-
-		PlayerStandard.say_line(self, "g80x_plu")
-	end
-end
+end)
 
 function PlayerDamage:_calc_armor_damage(attack_data)
 
@@ -2225,13 +2111,11 @@ function PlayerDamage:set_armor(armor)
 		if current_armor ~= 0 and armor == 0 then
 			self._can_dodge_heal = true
 		end
-		local bulletproof_aced = managers.player:has_category_upgrade("player", "armor_full_damage_absorb")
-		if bulletproof_aced and math.round(armor * 10) >= (math.round(self:_max_armor() * 10) * managers.player:upgrade_value("player", "armor_full_damage_absorb", 0)[2]) then --mmmmm floating point errors
-			local pm = managers.player
-			local base_armor = tweak_data.player.damage.ARMOR_INIT + pm:body_armor_value("armor")
+
+		if math.round(armor * 10) >= math.round(self:_max_armor() * 10) then --mmmmm floating point errors
 			managers.player:set_damage_absorption(
 				"full_armor_absorption",
-				managers.player:upgrade_value("player", "armor_full_damage_absorb", 0)[1] * base_armor
+				managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor()
 			)
 		else
 			managers.player:set_damage_absorption(

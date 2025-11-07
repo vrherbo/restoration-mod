@@ -74,14 +74,14 @@ return  {
         restoration:gen_dummy(400003, "fbi_ready_team_03", Vector3(-800, 6700, 0), Rotation(-88, 0, -0), opts_fbi_ready_team_agent),
         restoration:gen_dummy(400004, "fbi_ready_team_04", Vector3(-700, 6700, 0), Rotation(-85, 0, -0), opts_fbi_ready_team_agent),
         -- FBI Ready Teams (spawnnppoint_2)
-        restoration:gen_dummy(400005, "fbi_ready_team_05", Vector3(-3200, -900, 0), Rotation(-91, 0, -0), opts_fbi_ready_team_agent),
-        restoration:gen_dummy(400006, "fbi_ready_team_06", Vector3(-3200, -800, 0), Rotation(-96, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400005, "fbi_ready_team_05", Vector3(-3200,-900, 0), Rotation(-91, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400006, "fbi_ready_team_06", Vector3(-3200,-800, 0), Rotation(-96, 0, -0), opts_fbi_ready_team_agent),
         restoration:gen_dummy(400007, "fbi_ready_team_07", Vector3(-3100.015, -901.745, 0), Rotation(-91, 0, -0), opts_fbi_ready_team_agent),
-        restoration:gen_dummy(400008, "fbi_ready_team_08", Vector3(-3200, -800, 0), Rotation(-91, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400008, "fbi_ready_team_08", Vector3(-3200,-800, 0), Rotation(-91, 0, -0), opts_fbi_ready_team_agent),
         -- FBI Ready Teams (spawnppoint_3)
-        restoration:gen_dummy(400009, "fbi_ready_team_09", Vector3(2100, -3200, 0), Rotation(69, 0, -0), opts_fbi_ready_team_agent),
-        restoration:gen_dummy(400010, "fbi_ready_team_10", Vector3(2100, -3100, 0), Rotation(94, 0, -0), opts_fbi_ready_team_agent),
-        restoration:gen_dummy(400011, "fbi_ready_team_11", Vector3(2200, -3200, 0), Rotation(87, 0, -0), opts_fbi_ready_team_agent),
-        restoration:gen_dummy(400012, "fbi_ready_team_12", Vector3(2200, -3100, 0), Rotation(91, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400009, "fbi_ready_team_09", Vector3(2100,-3200, 0), Rotation(69, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400010, "fbi_ready_team_10", Vector3(2100,-3100, 0), Rotation(94, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400011, "fbi_ready_team_11", Vector3(2200,-3200, 0), Rotation(87, 0, -0), opts_fbi_ready_team_agent),
+        restoration:gen_dummy(400012, "fbi_ready_team_12", Vector3(2200,-3100, 0), Rotation(91, 0, -0), opts_fbi_ready_team_agent),
     }
 }
