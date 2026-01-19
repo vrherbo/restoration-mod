@@ -5275,6 +5275,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_Ruloc_Mutators", function(loc)
 		["mutator_no_outlines_longdesc"] = "Почти все контуры отключены. Также отключены ники над ботами/игроками.",
 		["menu_mutator_no_outlines_enemies_toggle"] = "Выключить контуры противников",
 		["menu_mutator_no_outlines_enemies_toggle"] = "Выключить подсвечивающие контуры (кроме обводки для сопровождения цели)",
+		["menu_mutator_no_outlines_deployables_toggle"] = "Выключить контуры снаряжения",
+		["menu_mutator_no_outlines_ammo_pickups_toggle"] = "Выключить контуры для пачек с патронами и метательного",
 
 		["mutator_spawn_mult"] = "Увеличенные отряды",
 		["menu_mutator_enemy_spawn"] = "МНОЖИТЕЛЬ СПАУНОВ",
@@ -5348,17 +5350,17 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_Ruloc_Mutators", function(loc)
 		["mutator_zombie_outbreak_desc"] = "Все враги заменены зомби",
 		["mutator_zombie_outbreak_longdesc"] = "Мертвые восстали! Заменяет всех врагов на зомби-юнитов.",
 
-		["mutator_faction_override"] = "Enemy Faction Override",
-		["mutator_faction_override_desc"] = "",
-		["mutator_faction_override_longdesc"] = "",
-		["mutator_faction_override_"] = "",
-		["mutator_faction_override_select"] = "",
-		["mutator_faction_override_america"] = "America",
-		["mutator_faction_override_russia"] = "Russia",
-		["mutator_faction_override_zombie"] = "Zombie",
-		["mutator_faction_override_murkywater"] = "MurkyWater",
-		["mutator_faction_override_nypd"] = "NYPD",
-		["mutator_faction_override_lapd"] = "LAPD",
+		["mutator_faction_replace"] = "Faction Replacer",
+		["mutator_faction_replace_desc"] = "Faction Replacer desc",
+		["mutator_faction_replace_longdesc"] = "Faction Replacer longdesc",
+		["menu_mutator_faction_replace"] = "Faction",
+		["menu_mutator_faction_replace_america"] = "America",
+		["menu_mutator_faction_replace_russia"] = "Russia",
+		["menu_mutator_faction_replace_zombie"] = "Zombie",
+		["menu_mutator_faction_replace_murkywater"] = "MurkyWater",
+		["menu_mutator_faction_replace_federales"] = "Federales",
+		["menu_mutator_faction_replace_nypd"] = "NYPD",
+		["menu_mutator_faction_replace_lapd"] = "LAPD",	
 		["faction_selector_choice"] = "Faction: ",
 
 		["mutator_high_noon"] = "Red Dead: The Heist",
@@ -5595,7 +5597,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_Ruloc_Skills", function(loc)
 
 				--Transporter
 				["menu_pack_mule_beta_sc"] = "Перевозчик",
-				["menu_transporter_beta_desc_sc"] = "БАЗОВЫЙ: #{owned}#$basic##\nЗа каждые #{skill_color}#10## очков брони штраф на передвижение с сумкой уменьшается на #{skill_color}#$skill_value_b1.##\n\nACE: #{owned}#$pro##\nМаксимальный вес переносимых сумок увеличен на #{skill_color}#$skill_value_p2.##\n\n#{risk}#Примечание: По умолчанию максимальный переносимый вес равняется 45. Штраф к передвижению при ношении сумок зависит от типов переносимых сумок.##",
+				["menu_transporter_beta_desc_sc"] = "БАЗОВЫЙ: #{owned}#$basic##\nЗа каждые #{skill_color}#10## очков брони штраф на передвижение с сумкой уменьшается на #{skill_color}#$skill_value_b1.##\n\nACE: #{owned}#$pro##\nМаксимальный вес переносимых сумок увеличен на #{skill_color}#$skill_value_p2.##\n\n#{risk}#Примечание: По умолчанию максимальный переносимый вес равняется 30. Штраф к передвижению при ношении сумок зависит от типов переносимых сумок.##",
 
 				--More Blood to Bleed--
 				["menu_iron_man_beta_sc"] = "Груда мышц",

@@ -32,8 +32,8 @@ function ArrowBase:update(unit, t, dt)
 
 	if not self._is_pickup then
 		local autohit_dir = self:_calculate_autohit_direction()
-
-		if autohit_dir and self._damage_class_string ~= "InstantExplosiveBulletBase" and self._damage_class_string ~= "InstantSnowballBase"  then
+		local res_magnetism = restoration.Options:GetValue("WEAPONS/WeaponHandling/ProjectileMagnetism")
+		if autohit_dir and self._damage_class_string ~= "InstantExplosiveBulletBase" and self._damage_class_string ~= "InstantSnowballBase" and res_magnetism then
 			local body = self._unit:body(0)
 
 			mvector3.set(tmp_vel, body:velocity())
@@ -92,7 +92,7 @@ function ArrowBase:_calculate_autohit_direction()
 end	
 
 Hooks:PostHook(ArrowBase, "reload_contour", "reload_contour_arrow_mutator_no_outlines", function(self)
-    local disable_outlines = managers.mutators:modify_value("ArrowBase:DisableOutlines", false)
+    local disable_outlines = managers.mutators:modify_value("ArrowBase:DisableAmmoPickupOutlines", false)
 	if disable_outlines then
 		if self._unit:contour() and managers.user:get_setting("throwable_contour") then
 			self._unit:contour():_upd_opacity(self._attached_to_unit and 0)

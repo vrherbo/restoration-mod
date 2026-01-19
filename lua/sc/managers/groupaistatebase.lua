@@ -327,12 +327,12 @@ function GroupAIStateBase:use_ponr_music()
 	return true
 end
 
+-- The vanilla function crashes rarely - not entirely sure why
+-- Guessing it might be possible for a client to start the PONR on their end before the host does?
+-- Either way, create the table if it doesn't exist yet instead of exploding
 Hooks:OverrideFunction(GroupAIStateBase, "set_is_inside_point_of_no_return", function(self, peer_id, is_inside, ...)
-	if self._peers_inside_point_of_no_return then
-		self._peers_inside_point_of_no_return[peer_id] = is_inside
-	else
-		-- Add debug later, this was done on mobile 
-	end
+	self._peers_inside_point_of_no_return = self._peers_inside_point_of_no_return or {}
+	self._peers_inside_point_of_no_return[peer_id] = is_inside
 end)
 
 Hooks:PreHook(GroupAIStateBase, "remove_point_of_no_return_timer", "res_remove_point_of_no_return_timer", function(self, point_of_no_return_id)
@@ -569,31 +569,34 @@ function GroupAIStateBase:_update_point_of_no_return(t, dt)
 	end
 end
 
+-- TODO: handling for instance bullshit
 function GroupAIStateBase:check_ponr_escape_area()
 	if not self._point_of_no_return_areas or setup:has_queued_exec() then
 		return
 	end
 
-	local function check_executed_objects(area_trigger, current, recursion_depth)
-		current = current or area_trigger
-		recursion_depth = recursion_depth or 2
+	local function check_executed_objects(current, checked)
+		if not current or checked[current] then
+			return
+		end
+
+		checked[current] = true
 
 		for _, params in pairs(current._values.on_executed) do
 			local element = current:get_mission_element(params.id)
 			local element_class = getmetatable(element)
 			if element_class == ElementMissionEnd then
 				return true
-			elseif recursion_depth > 0 and element_class == MissionScriptElement then
-				if check_executed_objects(area_trigger, element, recursion_depth - 1) then
-					return true
-				end
+			elseif check_executed_objects(element, checked) then
+				return true
 			end
 		end
 	end
 
+	local valid_classes = table.set(ElementAreaTrigger)
 	for _, script in pairs_g(managers.mission:scripts()) do
 		for _, element in pairs_g(script:elements()) do
-			if getmetatable(element) == ElementAreaTrigger and check_executed_objects(element) then
+			if valid_classes[getmetatable(element)] and check_executed_objects(element, {}) then
 				if not self._point_of_no_return_areas[1] or not table_contains(self._point_of_no_return_areas, element) then
 					self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = element
 				end
@@ -777,6 +780,21 @@ function GroupAIStateBase:num_converted_police()
 	return self._converted_police and table.size(self._converted_police) or 0
 end
 
+-- Normally this check is only done in `sync_hostage_headcount`, and it works fine in vanilla
+-- In Res, where converts also count, the interaction doesn't work as expected
+-- Probably `sync_hostage_headcount` comes before converts are registered as converts
+function GroupAIStateBase:_upd_hostage_absorption()
+	if managers.player:has_team_category_upgrade("damage", "hostage_absorption") then
+		local hostage_count = math.min(self._hostage_headcount + (self:num_converted_police() or managers.player:num_local_minions() or 0), tweak_data.upgrades.values.team.damage.hostage_absorption_limit)
+		local absorption = managers.player:team_upgrade_value("damage", "hostage_absorption", 0) * hostage_count
+
+		managers.player:set_damage_absorption("hostage_absorption", absorption)
+	end
+end
+
+Hooks:PostHook(GroupAIStateBase, "convert_hostage_to_criminal", "res_convert_hostage_to_criminal", GroupAIStateBase._upd_hostage_absorption)
+Hooks:PostHook(GroupAIStateBase, "remove_minion", "res_remove_minion", GroupAIStateBase._upd_hostage_absorption)
+
 function GroupAIStateBase:sync_hostage_headcount(nr_hostages)
 	if nr_hostages and self._hostage_headcount < nr_hostages then
 		managers.player:captured_hostage()
@@ -788,12 +806,7 @@ function GroupAIStateBase:sync_hostage_headcount(nr_hostages)
 		managers.network:session():send_to_peers_synched("sync_hostage_headcount", math.min(self._hostage_headcount, 63))
 	end
 
-	if managers.player:has_team_category_upgrade("damage", "hostage_absorption") then
-		local hostage_count = math.min(self._hostage_headcount + (self:num_converted_police() or managers.player:num_local_minions() or 0), tweak_data.upgrades.values.team.damage.hostage_absorption_limit)
-		local absorption = managers.player:team_upgrade_value("damage", "hostage_absorption", 0) * hostage_count
-
-		managers.player:set_damage_absorption("hostage_absorption", absorption)
-	end
+	self:_upd_hostage_absorption()
 
 	managers.hud:set_control_info({
 		nr_hostages = self._hostage_headcount

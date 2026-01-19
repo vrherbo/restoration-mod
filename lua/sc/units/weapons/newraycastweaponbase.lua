@@ -236,11 +236,6 @@ function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 	local mul = 1
 	local multi_ray = self._rays and self._rays > 1
 
-	--Multi-pellet spread increase.
-	if multi_ray then
-		mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase or 1
-	end
-
 	local pm = managers.player
 
 	mul = mul * pm:get_property("desperado", 1)
@@ -253,6 +248,14 @@ function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 	local full_steelsight = current_state:is_full_steelsight()
 
 	if full_steelsight then
+		if self:weapon_tweak_data().always_hipfire or self.AKIMBO then
+			mul = mul * ((tweak_data.weapon.stat_info.hipfire_only_spread_increase or 1) * ( (multi_ray and 0.33) or (self.AKIMBO and 1) or 1))
+		end
+
+		if self:second_sight_spread_mult() then
+			mul = mul * (self:second_sight_spread_mult() / ((multi_ray and (tweak_data.weapon.stat_info.shotgun_spread_increase * 3.33)) or 1) )
+		end
+
 		if multi_ray then
 			mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase_ads or 1
 			
@@ -260,14 +263,6 @@ function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 				local multishot_spread = tweak_data[category] and tweak_data[category].ads_multishot_spread_mult or 1
 				mul = mul * multishot_spread
 			end
-		end
-		
-		if self:weapon_tweak_data().always_hipfire or self.AKIMBO then
-			mul = mul * ((tweak_data.weapon.stat_info.hipfire_only_spread_increase or 1) * ( (multi_ray and 0.33) or (self.AKIMBO and 1) or 1))
-		end
-
-		if self:second_sight_spread_mult() then
-			mul = mul * (self:second_sight_spread_mult() / ((multi_ray and (tweak_data.weapon.stat_info.shotgun_spread_increase * 3)) or 1) )
 		end
 
 		if not is_moving then
@@ -284,6 +279,10 @@ function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 			mul = mul * pm:upgrade_value(category, "steelsight_accuracy_inc", 1)
 		end
 	else
+		--Multi-pellet spread increase.
+		if multi_ray then
+			mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase or 1
+		end
 		for _, category in ipairs(self:categories()) do
 			mul = mul * pm:upgrade_value(category, "hip_fire_spread_multiplier", 1)
 		end
@@ -623,7 +622,7 @@ function NewRaycastWeaponBase:_start_spin()
 end
 
 function NewRaycastWeaponBase:_stop_spin()
-	if self._spinning and not self._in_steelsight then
+	if self._spinning and not self._in_steelsight and (not self:in_burst_mode() or self:in_burst_mode() and (self._burst_rounds_remaining and self._burst_rounds_remaining < 1)) then
 		local t = self._unit:timer():time()
 		local spin_up_t = (self:weapon_tweak_data().spin_up_t or NewRaycastWeaponBase._SPIN_UP_T) * self._spin_up_mult
 		local spin_down_t = (self:weapon_tweak_data().spin_down_t or NewRaycastWeaponBase._SPIN_DOWN_T) * self._spin_up_mult
@@ -885,6 +884,8 @@ function NewRaycastWeaponBase:old_update_stats_values(disallow_replenish, ammo_d
 		stats.zoom = math.min(stats.zoom + managers.player:upgrade_value(primary_category, "zoom_increase", 0), #stats_tweak_data.zoom)
 	end
 
+	self._part_stats_uncapped = {}
+
 	for stat, _ in pairs(stats) do
 		if stats[stat] < 1 or stats[stat] > #stats_tweak_data[stat] then
 			Application:error("[NewRaycastWeaponBase] Base weapon stat is out of bound!", "stat: " .. stat, "index: " .. stats[stat], "max_index: " .. #stats_tweak_data[stat], "This stat will be clamped!")
@@ -892,6 +893,7 @@ function NewRaycastWeaponBase:old_update_stats_values(disallow_replenish, ammo_d
 
 		if parts_stats[stat] then
 			stats[stat] = stats[stat] + parts_stats[stat]
+			self._part_stats_uncapped[stat] = (self._part_stats_uncapped[stat] or 0) + parts_stats[stat]
 		end
 
 		if bonus_stats[stat] then
@@ -1029,7 +1031,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 
 		--LEAVE THESE OUTSIDE OF THE 'BURST_DATA' if statement
 		if self._burst_fire_rate_multiplier then
-			self._burst_fire_rate_multiplier = self._burst_fire_rate_multiplier * 1.05 --to help with frame rounding
+			self._burst_fire_rate_multiplier = self._burst_fire_rate_multiplier * 1.05 --to help with frame rounding as to err on the side of "too early" over "too late"
 		end
 		if self._lock_burst and not self._locked_fire_mode then
 			self:_set_burst_mode(true, true)
@@ -1264,6 +1266,9 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 				self._pointshoot_strafe = math.min( (self._pointshoot_strafe or 0) + stats.pointshoot_strafe, 1 )
 			end
 
+			if stats.object_damage_mult_override then		
+				self._object_damage_mult = stats.object_damage_mult_override
+			end
 			if stats.descope_on_fire then		
 				self._descope_on_fire = stats.descope_on_fire
 			end
@@ -1466,6 +1471,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 
 	if self._use_silenced_muzzleflash then
 		self._muzzle_effect = Idstring(self:weapon_tweak_data().muzzleflash_silenced or "effects/payday2/particles/weapons/9mm_auto_silence_fps")
+		self._muzzle_effect_table.effect = self._muzzle_effect
 	end
 
 	if self._cbfd_to_add_this_check_elsewhere then
@@ -2643,30 +2649,3 @@ Hooks:PostHook(NewRaycastWeaponBase, "weapon_tweak_data", "res_weapon_tweak_data
 
     return wtd
 end)
-
-if OWLFBullpupWeaponBase then
-	function OWLFBullpupWeaponBase:clbk_assembly_complete(...)
-		OWLFBullpupWeaponBase.super.clbk_assembly_complete(self, ...)
-		if table.contains(self._blueprint, "wpn_fps_upg_owlfbullpup_mag_drum") then
-			self:weapon_tweak_data().animations.reload_name_id = "owlfbullpup_drum"
-		else
-			self:weapon_tweak_data().animations.reload_name_id = "owlfbullpup"
-		--[[
-			self:weapon_tweak_data().timers.reload_empty = 4.8
-			self:weapon_tweak_data().timers.reload_not_empty = 3.0
-		--]]
-		end
-	end
-end
-
-
-if SKSWeaponBase then
-	function SKSWeaponBase:clbk_assembly_complete(...)
-		SKSWeaponBase.super.clbk_assembly_complete(self, ...)
-		if table.contains(self._blueprint, "wpn_fps_upg_sks_mag_detach10") or table.contains(self._blueprint, "wpn_fps_upg_sks_mag_detach20") then
-			self:weapon_tweak_data().animations.reload_name_id = "sks_mag"
-		else
-			self:weapon_tweak_data().animations.reload_name_id = "sks"
-		end
-	end
-end

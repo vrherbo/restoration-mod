@@ -1701,12 +1701,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {11, 1},
 					[1] = {
 						upgrades = {
+							"pistol_steelsight_accuracy_inc_1",
 							"pistol_stacked_accuracy_bonus_1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
+							"pistol_steelsight_range_inc_1",
 							"pistol_stacked_accuracy_bonus_2"
 						},
 						cost = self.costs.hightierpro
@@ -2125,7 +2127,7 @@ function SkillTreeTweakData:init(tweak_data)
 					"player_passive_dodge_chance_1"
 				},
 				cost = 400,
-				icon_xy = {1, 1},
+				icon_xy = {4, 0},
 				name_id = "menu_deck2_3",
 				desc_id = "menu_deck2_3_desc_sc"
 			},
@@ -2595,6 +2597,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 			},
 			texture_bundle_folder = "sc",
 			icon_xy = {0, 0}
@@ -2610,6 +2613,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_melee_fists_damage_multiplier",
 				"buildup_meter_tony_extra_ammo_multiplier_1",
@@ -2639,6 +2643,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_buildup_meter_aubrey"
 			},
@@ -2656,10 +2661,12 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"buildup_meter_pacify_2",
 				"buildup_meter_hurt_decay_mod_1",
-				"buildup_meter_hurt_decay_mod_2"
+				"buildup_meter_hurt_decay_mod_2",
+				"buildup_meter_hurt_decay_mod_3",
 			},
 			texture_bundle_folder = "sc",
 			icon_xy = {0, 3}
@@ -2675,6 +2682,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_buildup_meter_zack_1"
 			},
@@ -2692,6 +2700,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 
 				"player_buildup_meter_rick"
 			},
@@ -2709,6 +2718,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 
 				"buildup_meter_redline_2",
 				"player_buildup_meter_zack_1",
@@ -2728,6 +2738,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_buildup_meter_earl",
 				"buildup_meter_hysteria_2",
@@ -2746,6 +2757,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_melee_brass_damage_multiplier",
 				"buildup_meter_tony_extra_ammo_multiplier_1",
@@ -2782,8 +2794,13 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
-				"player_buildup_meter_mark"
+				"player_buildup_meter_mark",
+				"player_melee_kill_stamina_2",
+				"player_melee_kill_stamina_3",
+				"buildup_meter_redline_2",
+				"buildup_meter_redline_3"
 			},
 			texture_bundle_folder = "sc",
 			icon_xy = {1, 1}
@@ -2799,6 +2816,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"player_buildup_meter_swan",
 				"buildup_meter_elude_2",
@@ -2820,6 +2838,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_hysteria_1",
 				"buildup_meter_elude_1",
 				"buildup_meter_terrify_1",
+				"player_melee_kill_stamina_1",
 				
 				"buildup_meter_elude_2",
 				"buildup_meter_hurt_decay_mod_1",
@@ -3080,7 +3099,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_melee_kill_dodge_regen",
-					"player_melee_double_interval",
+					--"player_melee_double_interval",
 					"player_passive_dodge_chance_2"
 				},
 				cost = 2400,

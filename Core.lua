@@ -165,6 +165,10 @@ function restoration:Init()
 		Gensec_HQ = restoration.captain_types.autumn, --Gensec HQ Raid day 2
 		hwu = restoration.captain_types.autumn, -- Avalon's Shadow
 		skm_firestarter_2 = restoration.captain_types.autumn,--FBI Holdout
+		skm_tbh = restoration.captain_types.autumn,--TBA Holdout
+		money_tbh = restoration.captain_types.autumn,--TBA Heist
+		skm_tbh_xmas = restoration.captain_types.autumn,--TBA Holdout
+		money_tbh_xmas = restoration.captain_types.autumn,--TBA Heist
 
 		--I'm not typing out the whole name
 		help = restoration.captain_types.hvh, --Prison Nightmare
@@ -351,7 +355,11 @@ function restoration:Init()
 		"hogar",-- The House Robbery
 		"icing",	--Road Rage
 		"gunw_lvl",  -- Gun Waashing
-		"R&amp;B Bank" -- RNB Bank (Notoriety port)
+		"R&amp;B Bank", -- RNB Bank (Notoriety port)
+		"skm_tbh", --TBA
+		"skm_tbh_xmas", --TBA
+		"money_tbh", --TBA
+		"money_tbh_xmas" --TBA
 	}
 	--For levels that have aggressive scripted spawns, or spawn placement such that enemies are constantly spawned next to players.
 	restoration.very_tiny_levels = {
@@ -744,6 +752,11 @@ restoration.ponrtracks = {
 	"random"
 }
 
+restoration.snd_raffica = {
+	"snd_raffica_vanilla",
+	"snd_raffica_b92fs",
+	"snd_raffica_combo"
+}
 restoration.snd_sw500 = {
 	"snd_sw500_vanilla",
 	"snd_sw500_peacemaker",
@@ -922,6 +935,20 @@ function restoration:disable_mission_script_patches()
 			return true
 		end
 	end
+end
+
+-- Always return a complete patch in case of a specific dialogue element needing other changes as well
+function restoration:get_can_not_be_muted_patch(value)
+	if value == true or value == false then
+		-- Nothing
+	else
+		value = self.Options:GetValue("OTHER/ExtraUnmuteables") and true or nil
+	end
+	return {
+		values = {
+			can_not_be_muted = value,
+		},
+	}
 end
 
 -- Load and execute a file from the req/ folder
